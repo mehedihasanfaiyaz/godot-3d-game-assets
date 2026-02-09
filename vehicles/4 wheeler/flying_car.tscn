@@ -1,0 +1,308 @@
+[gd_scene load_steps=34 format=3 uid="uid://bwr3f34yhuh7a"]
+
+[ext_resource type="Script" uid="uid://co7300s56l47e" path="res://flying_car.gd" id="1_uig02"]
+[ext_resource type="PackedScene" uid="uid://bvq8x7y3m4n5p" path="res://vehicle_hud.tscn" id="2_exmno"]
+[ext_resource type="Texture2D" uid="uid://do6u58g1j3l33" path="res://assets/texture/Green/texture_05.png" id="2_woecf"]
+[ext_resource type="Texture2D" uid="uid://dyocdwe83f7re" path="res://assets/texture/Light/texture_07.png" id="3_rky6f"]
+[ext_resource type="Texture2D" uid="uid://dcenr58nro4wa" path="res://assets/texture/Dark/texture_04.png" id="4_wgfa0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqk2v"]
+albedo_color = Color(0.2, 0.7, 1, 1)
+albedo_texture = ExtResource("2_woecf")
+metallic = 0.6
+roughness = 0.3
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_036b0"]
+material = SubResource("StandardMaterial3D_aqk2v")
+size = Vector3(2, 0.5, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dwbse"]
+albedo_color = Color(0.5806597, 0.60218936, 0.7874835, 1)
+albedo_texture = ExtResource("3_rky6f")
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_pkg7o"]
+material = SubResource("StandardMaterial3D_dwbse")
+size = Vector3(1, 0.5, 1.8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gbfbk"]
+size = Vector3(2, 0.5, 4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wing"]
+albedo_color = Color(0.15, 0.6, 0.9, 1)
+metallic = 0.7
+roughness = 0.2
+
+[sub_resource type="BoxMesh" id="BoxMesh_wing"]
+material = SubResource("StandardMaterial3D_wing")
+size = Vector3(3, 0.1, 1.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3sb7"]
+albedo_texture = ExtResource("4_wgfa0")
+uv1_triplanar = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fj7yv"]
+material = SubResource("StandardMaterial3D_f3sb7")
+height = 0.15
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n21li"]
+albedo_color = Color(0.74138474, 0.7413847, 0.74138457, 1)
+albedo_texture = ExtResource("3_rky6f")
+uv1_triplanar = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_woecf"]
+material = SubResource("StandardMaterial3D_n21li")
+inner_radius = 0.173
+outer_radius = 0.549
+rings = 20
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_exmno"]
+albedo_color = Color(0.3779188, 0.37791887, 0.37791884, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_exmno"]
+material = SubResource("StandardMaterial3D_exmno")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6rns8"]
+albedo_color = Color(0.32544088, 0.3254409, 0.32544088, 1)
+emission_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_6rns8"]
+material = SubResource("StandardMaterial3D_6rns8")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8j08n"]
+albedo_color = Color(0.32544088, 0.3254409, 0.32544088, 1)
+emission_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_woecf"]
+material = SubResource("StandardMaterial3D_8j08n")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rky6f"]
+albedo_color = Color(0.36417595, 0.32406402, 0.19129461, 1)
+emission_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_wgfa0"]
+material = SubResource("StandardMaterial3D_rky6f")
+size = Vector3(0.2, 0.2, 0.2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_exmno"]
+spread = 15.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0.5, 0)
+scale_min = 0.5
+scale_max = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_woecf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rky6f"]
+material = SubResource("StandardMaterial3D_woecf")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wgfa0"]
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 1, 0)
+scale_min = 0.29999998
+scale_max = 0.79999995
+color = Color(0.95686275, 0.27058825, 0.25490198, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wgfa0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e118d"]
+material = SubResource("StandardMaterial3D_wgfa0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6rns8"]
+direction = Vector3(0, 1, 0)
+spread = 25.0
+initial_velocity_min = 1.5
+initial_velocity_max = 3.0
+gravity = Vector3(0, 0.3, 0)
+scale_min = 1.3
+scale_max = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e118d"]
+albedo_color = Color(0.16924527, 0.1692453, 0.16924527, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_n21li"]
+material = SubResource("StandardMaterial3D_e118d")
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="flying_car" type="RigidBody3D" node_paths=PackedStringArray("left_wing", "right_wing", "wheels", "damage_smoke_particles", "destruction_fire_particles", "destruction_smoke_particles", "vehicle_hud", "front_lights", "rear_lights", "left_indicators", "right_indicators", "cameras")]
+mass = 800.0
+gravity_scale = 2.0
+script = ExtResource("1_uig02")
+left_wing = NodePath("LeftWing")
+right_wing = NodePath("RightWing")
+wheels = [NodePath("wheelFL"), NodePath("wheelRL"), NodePath("wheelFR"), NodePath("wheelRR")]
+jump_impulse = 15000.0
+max_boost_fuel = 20000.0
+boost_consumption = 800.0
+boost_recharge = 15000.0
+max_fuel = 3000.0
+fuel_consumption_rate = 0.8
+fuel_boost_multiplier = 2.5
+damage_threshold = 20.0
+damage_smoke_particles = NodePath("DamageSmoke")
+destruction_fire_particles = NodePath("DestructionFire")
+destruction_smoke_particles = NodePath("DestructionSmoke")
+vehicle_hud = NodePath("VehicleHUD")
+front_lights = [NodePath("Front Lights/MeshInstance3D"), NodePath("Front Lights/MeshInstance3D2")]
+rear_lights = [NodePath("backLights/right"), NodePath("backLights/left")]
+left_indicators = [NodePath("backLights2/right")]
+right_indicators = [NodePath("backLights2/left")]
+cameras = [NodePath("top"), NodePath("FD"), NodePath("RL"), NodePath("RR"), NodePath("back")]
+
+[node name="FD" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.74069285, -0.6932132)
+
+[node name="RR" type="Camera3D" parent="."]
+transform = Transform3D(0.58176625, -0.26361224, 0.7694522, -0.0669873, 0.9272782, 0.36833075, -0.81059283, -0.26582587, 0.5218006, 2.6395316, 2.3207777, 3.3524294)
+
+[node name="RL" type="Camera3D" parent="."]
+transform = Transform3D(0.7197494, 0.2550093, -0.6457022, 0.0034725897, 0.92875874, 0.3706686, 0.69422543, -0.26903066, 0.6675879, -2.5126457, 2.3206463, 3.3728356)
+
+[node name="top" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.86123914, 0.50819993, 0, -0.50819993, 0.86123914, 0, 1.8841288, 3.3401408)
+
+[node name="back" type="Camera3D" parent="."]
+transform = Transform3D(-1, -4.4428248e-08, 7.5291915e-08, 0, 0.86123914, 0.50819993, -8.742278e-08, 0.50819993, -0.86123914, 0, 1.884, -3.34)
+
+[node name="carmesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.15358031, 0)
+mesh = SubResource("BoxMesh_036b0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="carmesh"]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0, 0.2940302, 1.3321726)
+mesh = SubResource("BoxMesh_pkg7o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_gbfbk")
+
+[node name="LeftWing" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.15, 0)
+
+[node name="WingMesh" type="MeshInstance3D" parent="LeftWing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0)
+mesh = SubResource("BoxMesh_wing")
+
+[node name="RightWing" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.15, 0)
+
+[node name="WingMesh" type="MeshInstance3D" parent="RightWing"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+mesh = SubResource("BoxMesh_wing")
+
+[node name="wheelFL" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -1.3)
+
+[node name="wheel" type="MeshInstance3D" parent="wheelFL"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="wheelFL/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRL" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 1.3)
+
+[node name="wheel" type="MeshInstance3D" parent="wheelRL"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="wheelRL/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelFR" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0008272, 0, -1.3)
+
+[node name="wheel" type="MeshInstance3D" parent="wheelFR"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="wheelFR/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0008272, 0, 1.3)
+
+[node name="wheel" type="MeshInstance3D" parent="wheelRR"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="wheelRR/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="VehicleHUD" parent="." instance=ExtResource("2_exmno")]
+
+[node name="Front Lights" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.9777416)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Front Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.708289, 0, 0)
+mesh = SubResource("BoxMesh_exmno")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Front Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6941339, 0, 0)
+mesh = SubResource("BoxMesh_exmno")
+
+[node name="backLights" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.978)
+
+[node name="right" type="MeshInstance3D" parent="backLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.708, 0, 0)
+mesh = SubResource("BoxMesh_6rns8")
+
+[node name="left" type="MeshInstance3D" parent="backLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7004048, 0, 0)
+mesh = SubResource("BoxMesh_6rns8")
+
+[node name="backLights2" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.403734)
+
+[node name="right" type="MeshInstance3D" parent="backLights2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9561527, 0, -0.43545413)
+mesh = SubResource("BoxMesh_woecf")
+
+[node name="left" type="MeshInstance3D" parent="backLights2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.95189196, 0, -0.43545413)
+mesh = SubResource("BoxMesh_wgfa0")
+
+[node name="DamageSmoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.050792098, 0)
+emitting = false
+amount = 30
+lifetime = 3.0
+randomness = 0.3
+process_material = SubResource("ParticleProcessMaterial_exmno")
+draw_pass_1 = SubResource("BoxMesh_rky6f")
+
+[node name="DestructionFire" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5376618)
+emitting = false
+amount = 50
+speed_scale = 0.7
+explosiveness = 0.7
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_wgfa0")
+draw_pass_1 = SubResource("BoxMesh_e118d")
+
+[node name="DestructionSmoke" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.538)
+emitting = false
+amount = 60
+lifetime = 3.5
+explosiveness = 0.3
+randomness = 0.4
+trail_lifetime = 5.5
+process_material = SubResource("ParticleProcessMaterial_6rns8")
+draw_pass_1 = SubResource("BoxMesh_n21li")

@@ -1,0 +1,518 @@
+[gd_scene load_steps=36 format=3 uid="uid://btf36ekmi2fyx"]
+
+[ext_resource type="Script" uid="uid://hfhsw6l3ymx2" path="res://trailer_physics.gd" id="1_trailer"]
+[ext_resource type="Script" uid="uid://dmmgtubok1jr0" path="res://raycast_car.gd" id="1_uig02"]
+[ext_resource type="PackedScene" uid="uid://bvq8x7y3m4n5p" path="res://vehicle_hud.tscn" id="2_exmno"]
+[ext_resource type="Texture2D" uid="uid://b8woaqn6jb1fd" path="res://assets/texture/Red/texture_05.png" id="2_truck_cab"]
+[ext_resource type="Texture2D" uid="uid://dyocdwe83f7re" path="res://assets/texture/Light/texture_07.png" id="3_truck_trailer"]
+[ext_resource type="Texture2D" uid="uid://dcenr58nro4wa" path="res://assets/texture/Dark/texture_04.png" id="4_wgfa0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_truck_cab"]
+albedo_color = Color(0.8, 0.1, 0.05, 1)
+albedo_texture = ExtResource("2_truck_cab")
+metallic = 0.4
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_truck_cab"]
+material = SubResource("StandardMaterial3D_truck_cab")
+size = Vector3(2.5, 2.8, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_cab"]
+size = Vector3(2.5, 2.8, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_connector"]
+albedo_color = Color(0.2, 0.2, 0.2, 1)
+metallic = 0.7
+
+[sub_resource type="BoxMesh" id="BoxMesh_connector"]
+material = SubResource("StandardMaterial3D_connector")
+size = Vector3(0.3, 0.3, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_f3sb7"]
+albedo_texture = ExtResource("4_wgfa0")
+roughness = 0.7
+uv1_triplanar = true
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_fj7yv"]
+material = SubResource("StandardMaterial3D_f3sb7")
+height = 0.25
+radial_segments = 32
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n21li"]
+albedo_color = Color(0.25, 0.25, 0.25, 1)
+albedo_texture = ExtResource("4_wgfa0")
+metallic = 0.5
+uv1_triplanar = true
+
+[sub_resource type="TorusMesh" id="TorusMesh_woecf"]
+material = SubResource("StandardMaterial3D_n21li")
+inner_radius = 0.3
+outer_radius = 0.6
+rings = 24
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_exmno"]
+albedo_color = Color(0.95, 0.95, 0.85, 1)
+emission_enabled = true
+emission = Color(1, 1, 0.9, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_exmno"]
+material = SubResource("StandardMaterial3D_exmno")
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6rns8"]
+albedo_color = Color(0.6447224, 0.06904939, 0.07082752, 1)
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_6rns8"]
+material = SubResource("StandardMaterial3D_6rns8")
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8j08n"]
+albedo_color = Color(0.9, 0.6, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.7, 0, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_woecf"]
+material = SubResource("StandardMaterial3D_8j08n")
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rky6f"]
+albedo_color = Color(0.9, 0.6, 0.1, 1)
+emission_enabled = true
+emission = Color(1, 0.7, 0, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_wgfa0"]
+material = SubResource("StandardMaterial3D_rky6f")
+size = Vector3(0.25, 0.25, 0.25)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_exmno"]
+spread = 15.0
+initial_velocity_min = 1.0
+initial_velocity_max = 2.0
+gravity = Vector3(0, 0.5, 0)
+scale_min = 0.5
+scale_max = 2.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_woecf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rky6f"]
+material = SubResource("StandardMaterial3D_woecf")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wgfa0"]
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 1, 0)
+scale_min = 0.29999998
+scale_max = 0.79999995
+color = Color(0.95686275, 0.27058825, 0.25490198, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wgfa0"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_e118d"]
+material = SubResource("StandardMaterial3D_wgfa0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_6rns8"]
+direction = Vector3(0, 1, 0)
+spread = 25.0
+initial_velocity_min = 1.5
+initial_velocity_max = 3.0
+gravity = Vector3(0, 0.3, 0)
+scale_min = 1.3
+scale_max = 3.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e118d"]
+albedo_color = Color(0.16924527, 0.1692453, 0.16924527, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_n21li"]
+material = SubResource("StandardMaterial3D_e118d")
+size = Vector3(0.3, 0.3, 0.3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_truck_trailer"]
+albedo_color = Color(0.85, 0.85, 0.85, 1)
+albedo_texture = ExtResource("3_truck_trailer")
+metallic = 0.2
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_truck_trailer"]
+material = SubResource("StandardMaterial3D_truck_trailer")
+size = Vector3(2.5, 3, 12)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_trailer"]
+size = Vector3(2.5, 3, 12)
+
+[node name="tractor_trailer" type="Node3D"]
+
+[node name="Tractor" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels", "damage_smoke_particles", "destruction_fire_particles", "destruction_smoke_particles", "vehicle_hud", "front_lights", "rear_lights", "left_indicators", "right_indicators", "cameras")]
+mass = 4000.0
+gravity_scale = 2.5
+script = ExtResource("1_uig02")
+wheels = [NodePath("wheelFL"), NodePath("wheelFR"), NodePath("wheelRML"), NodePath("wheelRMR")]
+engine_power = 800000.0
+boost_power = 8000000.0
+max_reverse_speed = 800.0
+jump_impulse = 50000.0
+max_boost_fuel = 6000.0
+boost_consumption = 1500.0
+boost_recharge = 6000.0
+max_fuel = 2000.0
+fuel_consumption_rate = 2.0
+fuel_boost_multiplier = 2.0
+damage_threshold = 35.0
+damage_smoke_particles = NodePath("DamageSmoke")
+destruction_fire_particles = NodePath("DestructionFire")
+destruction_smoke_particles = NodePath("DestructionSmoke")
+vehicle_hud = NodePath("VehicleHUD")
+front_lights = [NodePath("Front Lights/MeshInstance3D"), NodePath("Front Lights/MeshInstance3D2"), NodePath(""), NodePath("")]
+rear_lights = [NodePath("backLights/right"), NodePath("backLights/left")]
+left_indicators = [NodePath("backLights2/right")]
+right_indicators = [NodePath("backLights2/left")]
+cameras = [NodePath("top"), NodePath("FD"), NodePath("RL"), NodePath("RR"), NodePath("back")]
+
+[node name="FD" type="Camera3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -2.5)
+
+[node name="RR" type="Camera3D" parent="Tractor"]
+transform = Transform3D(0.58176625, -0.26361227, 0.7694522, -0.0669873, 0.9272784, 0.3683308, -0.81059283, -0.26582596, 0.5218006, 5, 5, 28.087965)
+
+[node name="RL" type="Camera3D" parent="Tractor"]
+transform = Transform3D(0.7197494, 0.25500926, -0.6457021, 0.0034725897, 0.92875874, 0.37066856, 0.69422543, -0.2690307, 0.66758794, -5, 5, 28.54023)
+
+[node name="top" type="Camera3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 0.86123914, 0.50819993, 0, -0.50819993, 0.86123914, 0, 6, 31.727398)
+
+[node name="back" type="Camera3D" parent="Tractor"]
+transform = Transform3D(-1, -4.4428248e-08, 7.5291915e-08, 0, 0.86123914, 0.50819993, -8.742278e-08, 0.50819993, -0.86123914, 0, 8.449489, -8.5)
+
+[node name="cab" type="MeshInstance3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_truck_cab")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("BoxShape3D_cab")
+
+[node name="fifth_wheel_mount" type="MeshInstance3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1.5)
+mesh = SubResource("BoxMesh_connector")
+
+[node name="wheelFL" type="RayCast3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, -1)
+
+[node name="wheel" type="MeshInstance3D" parent="Tractor/wheelFL"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tractor/wheelFL/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelFR" type="RayCast3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, -1)
+
+[node name="wheel" type="MeshInstance3D" parent="Tractor/wheelFR"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tractor/wheelFR/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRML" type="RayCast3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 1.5)
+
+[node name="wheel" type="MeshInstance3D" parent="Tractor/wheelRML"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tractor/wheelRML/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRMR" type="RayCast3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 1.5)
+
+[node name="wheel" type="MeshInstance3D" parent="Tractor/wheelRMR"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tractor/wheelRMR/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="VehicleHUD" parent="Tractor" instance=ExtResource("2_exmno")]
+
+[node name="Front Lights" type="Node3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -1.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Tractor/Front Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("BoxMesh_exmno")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Tractor/Front Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_exmno")
+
+[node name="backLights" type="Node3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 1.5)
+visible = false
+
+[node name="right" type="MeshInstance3D" parent="Tractor/backLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_6rns8")
+
+[node name="left" type="MeshInstance3D" parent="Tractor/backLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("BoxMesh_6rns8")
+
+[node name="backLights2" type="Node3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.95091367)
+
+[node name="right" type="MeshInstance3D" parent="Tractor/backLights2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.5, 0)
+mesh = SubResource("BoxMesh_woecf")
+
+[node name="left" type="MeshInstance3D" parent="Tractor/backLights2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.5, 0)
+mesh = SubResource("BoxMesh_wgfa0")
+
+[node name="DamageSmoke" type="GPUParticles3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+emitting = false
+amount = 30
+lifetime = 3.0
+randomness = 0.3
+process_material = SubResource("ParticleProcessMaterial_exmno")
+draw_pass_1 = SubResource("BoxMesh_rky6f")
+
+[node name="DestructionFire" type="GPUParticles3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1)
+emitting = false
+amount = 50
+speed_scale = 0.7
+explosiveness = 0.7
+randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_wgfa0")
+draw_pass_1 = SubResource("BoxMesh_e118d")
+
+[node name="DestructionSmoke" type="GPUParticles3D" parent="Tractor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -1)
+emitting = false
+amount = 60
+lifetime = 3.5
+explosiveness = 0.3
+randomness = 0.4
+trail_lifetime = 5.5
+process_material = SubResource("ParticleProcessMaterial_6rns8")
+draw_pass_1 = SubResource("BoxMesh_n21li")
+
+[node name="Trailer" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
+mass = 4000.0
+gravity_scale = 2.5
+script = ExtResource("1_trailer")
+wheels = [NodePath("wheelRL1"), NodePath("wheelRR1"), NodePath("wheelRL2"), NodePath("wheelRR2"), NodePath("wheelRL3"), NodePath("wheelRR3")]
+
+[node name="trailer_body" type="MeshInstance3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("BoxMesh_truck_trailer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+shape = SubResource("BoxShape3D_trailer")
+
+[node name="kingpin" type="MeshInstance3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
+mesh = SubResource("BoxMesh_connector")
+
+[node name="wheelRL1" type="RayCast3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, -3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer/wheelRL1"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer/wheelRL1/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR1" type="RayCast3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, -3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer/wheelRR1"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer/wheelRR1/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRL2" type="RayCast3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 0)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer/wheelRL2"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer/wheelRL2/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR2" type="RayCast3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 0)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer/wheelRR2"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer/wheelRR2/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRL3" type="RayCast3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer/wheelRL3"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer/wheelRL3/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR3" type="RayCast3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer/wheelRR3"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer/wheelRR3/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="backLights" type="Node3D" parent="Trailer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+
+[node name="Trailer2" type="RigidBody3D" parent="." node_paths=PackedStringArray("wheels")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 23.130802)
+mass = 4000.0
+gravity_scale = 2.5
+script = ExtResource("1_trailer")
+wheels = [NodePath("wheelRL1"), NodePath("wheelRR1"), NodePath("wheelRL2"), NodePath("wheelRR2"), NodePath("wheelRL3"), NodePath("wheelRR3")]
+
+[node name="trailer_body" type="MeshInstance3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+mesh = SubResource("BoxMesh_truck_trailer")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
+shape = SubResource("BoxShape3D_trailer")
+
+[node name="kingpin" type="MeshInstance3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
+mesh = SubResource("BoxMesh_connector")
+
+[node name="wheelRL1" type="RayCast3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, -3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer2/wheelRL1"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer2/wheelRL1/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR1" type="RayCast3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, -3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer2/wheelRR1"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer2/wheelRR1/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRL2" type="RayCast3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 0)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer2/wheelRL2"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer2/wheelRL2/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR2" type="RayCast3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 0)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer2/wheelRR2"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer2/wheelRR2/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRL3" type="RayCast3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.4, 0, 3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer2/wheelRL3"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer2/wheelRL3/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="wheelRR3" type="RayCast3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4, 0, 3)
+
+[node name="wheel" type="MeshInstance3D" parent="Trailer2/wheelRR3"]
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
+mesh = SubResource("CylinderMesh_fj7yv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Trailer2/wheelRR3/wheel"]
+mesh = SubResource("TorusMesh_woecf")
+skeleton = NodePath("../..")
+
+[node name="backLights" type="Node3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 6)
+
+[node name="right" type="MeshInstance3D" parent="Trailer2/backLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = SubResource("BoxMesh_6rns8")
+
+[node name="left" type="MeshInstance3D" parent="Trailer2/backLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
+mesh = SubResource("BoxMesh_6rns8")
+
+[node name="backLights2" type="Node3D" parent="Trailer2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 5.9722233)
+
+[node name="right" type="MeshInstance3D" parent="Trailer2/backLights2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.5, 0)
+mesh = SubResource("BoxMesh_woecf")
+
+[node name="left" type="MeshInstance3D" parent="Trailer2/backLights2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2, 0.5, 0)
+mesh = SubResource("BoxMesh_wgfa0")
+
+[node name="FifthWheelJoint" type="PinJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 1.5)
+node_a = NodePath("../Tractor")
+node_b = NodePath("../Trailer")
+
+[node name="TrailerJoint" type="PinJoint3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 15)
+node_a = NodePath("../Trailer")
+node_b = NodePath("../Trailer2")
