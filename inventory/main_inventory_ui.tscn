@@ -1,0 +1,140 @@
+[gd_scene load_steps=3 format=3 uid="uid://maininv"]
+
+[ext_resource type="Script" uid="uid://lq25qn736gw2" path="res://inventory/main_inventory_ui.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.05, 0.05, 0.05, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0, 0, 0, 0.4)
+shadow_size = 20
+
+[node name="MainInventoryUI" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -300.0
+offset_right = 450.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Title" type="Label" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "INVENTORY"
+
+[node name="HSeparator" type="HSeparator" parent="Panel/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TabContainer" type="TabContainer" parent="Panel/HBoxContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 14
+current_tab = 0
+
+[node name="TOOLS" type="ScrollContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="GridContainer" type="GridContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer/TOOLS"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 6
+
+[node name="CONSUMABLES" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="MATERIALS" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 2
+
+[node name="SPECIAL" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 3
+
+[node name="CONSTRUCTION" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 4
+
+[node name="DEVIATIONS" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 5
+
+[node name="WEAPON" type="Control" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 6
+
+[node name="GridContainer" type="GridContainer" parent="Panel/HBoxContainer/VBoxContainer/TabContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 8
+metadata/_tab_index = 7
+
+[node name="ItemInfo" type="VBoxContainer" parent="Panel/HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="ItemName" type="Label" parent="Panel/HBoxContainer/ItemInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 20
+text = "Item Name"
+autowrap_mode = 3
+
+[node name="ItemDescription" type="Label" parent="Panel/HBoxContainer/ItemInfo"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Hover over an item to see its description and details."
+autowrap_mode = 3
+
+[connection signal="tab_changed" from="Panel/HBoxContainer/VBoxContainer/TabContainer" to="." method="_on_tab_container_tab_changed"]

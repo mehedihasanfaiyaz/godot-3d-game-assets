@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://bv5iksrnf8ur7"]
+
+[ext_resource type="Script" uid="uid://clt7kfgqxwbmf" path="res://road_attribute.gd" id="1_rky6f"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rky6f"]
+size = Vector3(2, 10, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glow"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0, 0.6, 1, 0.3)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_rky6f"]
+material = SubResource("StandardMaterial3D_glow")
+size = Vector2(2, 6)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kayk5"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0.2, 1, 0.3, 0.6)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_58oqr"]
+emission_shape = 3
+emission_box_extents = Vector3(2, 0.1, 2)
+direction = Vector3(0, 1, 0)
+spread = 10.0
+initial_velocity_min = 2.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.1
+scale_max = 0.3
+color = Color(0.2, 1, 0.3, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yfl1h"]
+shading_mode = 0
+albedo_color = Color(0.2, 1, 0.3, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_61hok"]
+material = SubResource("StandardMaterial3D_yfl1h")
+size = Vector3(0.5, 0.5, 0.5)
+
+[node name="RoadAttribute" type="Area3D"]
+script = ExtResource("1_rky6f")
+zone_color = Color(0.2, 1, 0.3, 0.6)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_rky6f")
+
+[node name="Indicator" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0)
+mesh = SubResource("PlaneMesh_rky6f")
+surface_material_override/0 = SubResource("StandardMaterial3D_kayk5")
+
+[node name="Effects" type="GPUParticles3D" parent="."]
+amount = 20
+lifetime = 0.5
+process_material = SubResource("ParticleProcessMaterial_58oqr")
+draw_pass_1 = SubResource("BoxMesh_61hok")

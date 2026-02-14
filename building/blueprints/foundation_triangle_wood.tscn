@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=3 uid="uid://gurqtviyor0b"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tri"]
+points = PackedVector3Array(-2, 0, 1, 2, 0, 1, 0, 0, -1, -2, 0.5, 1, 2, 0.5, 1, 0, 0.5, -1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_tri"]
+left_to_right = 0.5
+size = Vector3(4, 2, 0.5)
+
+[node name="FoundationWoodTriangle" type="StaticBody3D"]
+collision_layer = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_tri")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.25, 0)
+mesh = SubResource("PrismMesh_tri")
+
+[node name="Sockets" type="Node3D" parent="."]
+
+[node name="Socket_Base" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+metadata/type = "foundation"
+
+[node name="Socket_Left" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0, 0)
+metadata/type = "foundation"
+
+[node name="Socket_Right" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 1, 0, 0)
+metadata/type = "foundation"
+
+[node name="WallSocket_Base" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.5, 1)
+metadata/type = "wall"
+
+[node name="WallSocket_Left" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0.5, 0)
+metadata/type = "wall"
+
+[node name="WallSocket_Right" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 1, 0.5, 0)
+metadata/type = "wall"

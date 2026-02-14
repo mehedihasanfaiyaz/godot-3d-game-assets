@@ -19,6 +19,7 @@ class_name RaycastWheel
 @export_group("Friction")
 @export var tire_grip := 2.5
 @export var longitudinal_grip := 4.0
+@export var lateral_stiffness := 60.0   # How fast the tire bites (INCREASED to 60.0)
 @export var rolling_resistance := 0.5
 
 ## Visual
@@ -30,6 +31,7 @@ class_name RaycastWheel
 var current_compression := 0.0
 var previous_compression := 0.0
 var is_grounded := false
+var is_slipping := false
 var contact_point := Vector3.ZERO
 var contact_normal := Vector3.UP
 var visual_radius: float = 0.0
@@ -51,7 +53,7 @@ func _ready() -> void:
 		if is_equal_approx(wheel_radius, 0.4) and visual_radius > 0:
 			wheel_radius = visual_radius
 			
-		print("RaycastWheel: %s | Radius: %.3f (Vis) | %.3f (Phys)" % [name, visual_radius, wheel_radius])
+		#print("RaycastWheel: %s | Radius: %.3f (Vis) | %.3f (Phys)" % [name, visual_radius, wheel_radius])
 
 	# Setup Sensors
 	var reach = rest_distance + wheel_radius + over_extend
@@ -87,16 +89,23 @@ func process_wheel_physics(
 	throttle_reverse: float,
 	brake: float,
 	engine_force: float,
-	brake_force_f: float
+	brake_force_f: float,
+	grip_modifier: float = 1.0 # Added for global grip control (drift/ice)
 ) -> Dictionary:
 	_update_collision()
 	_update_visual(delta)
 	
+	is_slipping = false # Reset every frame
+	
 	if is_grounded:
 		_calculate_suspension_force(delta)
-		_apply_friction(steer_input, throttle_reverse, brake, engine_force, brake_force_f)
+		_apply_friction(steer_input, throttle_reverse, brake, engine_force, brake_force_f, grip_modifier)
 		
-	return {"grounded": is_grounded, "compression": current_compression}
+	return {
+		"grounded": is_grounded, 
+		"compression": current_compression,
+		"slipping": is_slipping
+	}
 
 func _update_collision() -> void:
 	if shape_cast and shape_cast.is_enabled():
@@ -148,7 +157,7 @@ func _calculate_suspension_force(delta: float) -> float:
 	
 	return total_force
 
-func _apply_friction(steer, throttle_reverse, brake, engine, brake_f):
+func _apply_friction(steer, throttle_reverse, brake, engine, brake_f, grip_mod):
 	var tire_fwd = -global_basis.z.rotated(global_basis.y, steer)
 	var tire_right = global_basis.x.rotated(global_basis.y, steer)
 	
@@ -158,6 +167,9 @@ func _apply_friction(steer, throttle_reverse, brake, engine, brake_f):
 	# Calculate total load (Normal Force) the suspension supports
 	var normal_force = current_compression * spring_strength
 	if normal_force <= 0: return # No friction without contact pressure
+	
+	# Dynamic Grip
+	var current_tire_grip = tire_grip * grip_mod
 	
 	# === LONGITUDINAL (Drive/Brake) ===
 	var drive_force_vec = Vector3.ZERO
@@ -172,22 +184,29 @@ func _apply_friction(steer, throttle_reverse, brake, engine, brake_f):
 	
 	# Total Longitudinal Limit (Coulomb Friction)
 	var total_long_force = drive_force_vec + brake_force_vec
-	var max_long_grip = normal_force * tire_grip
+	var max_long_grip = normal_force * longitudinal_grip * grip_mod
 	if total_long_force.length() > max_long_grip:
 		total_long_force = total_long_force.normalized() * max_long_grip
+		is_slipping = true
 	
 	vehicle_body.apply_force(total_long_force, rel_pos)
 	
 	# === LATERAL (Slide Prevention) ===
 	var lat_vel = tire_right.dot(world_vel)
-	# Lateral friction should also be capped by normal force
-	var lat_friction_viscous = -tire_right * lat_vel * (vehicle_body.mass / 4.0) * tire_grip * 10.0
-	var max_lat_grip = normal_force * tire_grip
+	var fwd_vel = abs(tire_fwd.dot(world_vel))
 	
-	if lat_friction_viscous.length() > max_lat_grip:
-		lat_friction_viscous = lat_friction_viscous.normalized() * max_lat_grip
+	# Pro Tip: Use atan for a smooth friction curve (Simplified Pacejka)
+	# This allows the tire to "slip" and then lose grip naturally
+	var slip_angle = atan2(lat_vel, max(fwd_vel, 1.0)) 
+	var lat_force_mag = -slip_angle * lateral_stiffness * (vehicle_body.mass / 4.0)
+	
+	# Cap by normal force
+	var max_lat_grip = normal_force * current_tire_grip
+	if abs(lat_force_mag) > max_lat_grip:
+		lat_force_mag = sign(lat_force_mag) * max_lat_grip
+		is_slipping = true
 		
-	vehicle_body.apply_force(lat_friction_viscous, rel_pos)
+	vehicle_body.apply_force(tire_right * lat_force_mag, rel_pos)
 
 func _update_visual(delta: float) -> void:
 	if not wheel_mesh: return
@@ -222,7 +241,7 @@ func _update_visual(delta: float) -> void:
 		var actual_dist = _calculate_vertical_dist()
 		var mesh_bottom = wheel_mesh.global_position.y - r
 		var gap = mesh_bottom - contact_point.y
-		print("WHEEL DEBUG | Dist: %.2f | Gap: %.4f | Comp: %.2f | VisR: %.2f" % [actual_dist, gap, current_compression, r])
+		#print("WHEEL DEBUG | Dist: %.2f | Gap: %.4f | Comp: %.2f | VisR: %.2f" % [actual_dist, gap, current_compression, r])
 
 
 func get_compression_ratio() -> float:

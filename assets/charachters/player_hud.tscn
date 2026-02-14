@@ -1,0 +1,664 @@
+[gd_scene load_steps=12 format=3 uid="uid://bqkq8wq8w8w8w"]
+
+[ext_resource type="Script" path="res://assets/charachters/player_hud.gd" id="1_script"]
+[ext_resource type="Script" path="res://inventory/quick_access_ui.gd" id="2_quickaccess"]
+[ext_resource type="PackedScene" path="res://inventory/main_inventory_ui.tscn" id="3_maininv"]
+[ext_resource type="PackedScene" uid="uid://build_menu_ui" path="res://building/build_menu_ui.tscn" id="4_buildmenu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wheel_bg"]
+bg_color = Color(0, 0, 0, 0.4)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.1)
+corner_radius_top_left = 200
+corner_radius_top_right = 200
+corner_radius_bottom_right = 200
+corner_radius_bottom_left = 200
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_energy"]
+bg_color = Color(0.1, 0.8, 0.4, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 1, 0.2, 0.2)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_health"]
+bg_color = Color(1, 0.294118, 0.294118, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(1, 0, 0, 0.2)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hunger"]
+bg_color = Color(1, 0.647059, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(1, 0.5, 0, 0.2)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_thirst"]
+bg_color = Color(0, 0.666667, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0.4, 1, 0.2)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sanity"]
+bg_color = Color(0.717647, 0, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0.6, 0, 1, 0.2)
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_interact"]
+bg_color = Color(0, 0, 0, 0.6)
+border_width_left = 2
+border_color = Color(0, 0.8, 1, 1)
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nearby"]
+bg_color = Color(0, 0, 0, 0.3)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_build_key"]
+bg_color = Color(0.15, 0.15, 0.15, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.3)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 6.0
+expand_margin_right = 6.0
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_separator"]
+color = Color(1, 1, 1, 0.1)
+grow_begin = -10.0
+grow_end = -10.0
+thickness = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_build_cat_bg"]
+bg_color = Color(0, 0, 0, 0.4)
+corner_radius_top_left = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_build_cat_active"]
+bg_color = Color(0, 0.8, 1, 0.2)
+border_width_right = 4
+border_color = Color(0, 0.8, 1, 1)
+corner_radius_top_left = 4
+corner_radius_bottom_left = 4
+shadow_color = Color(0, 0.8, 1, 0.4)
+shadow_size = 8
+
+[node name="PlayerHUD" type="CanvasLayer"]
+script = ExtResource("1_script")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="EmoteWheel" type="Control" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="Panel" parent="Control/EmoteWheel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wheel_bg")
+
+[node name="EmoteContainer" type="Control" parent="Control/EmoteWheel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SelectionPointer" type="Control" parent="Control/EmoteWheel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control/EmoteWheel/SelectionPointer"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -2.0
+offset_top = -180.0
+offset_right = 2.0
+offset_bottom = -140.0
+grow_horizontal = 2
+color = Color(0, 0.8, 1, 1)
+
+[node name="QuickAccessBar" type="HBoxContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -94.0
+offset_right = 260.0
+offset_bottom = -30.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("2_quickaccess")
+
+[node name="MainInventory" parent="Control" instance=ExtResource("3_maininv")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="Crosshair" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="InteractInfo" type="PanelContainer" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 20.0
+offset_top = -20.0
+offset_right = 180.0
+offset_bottom = 20.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_interact")
+
+[node name="HBox" type="HBoxContainer" parent="Control/InteractInfo"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="InteractIcon" type="TextureRect" parent="Control/InteractInfo/HBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBox" type="VBoxContainer" parent="Control/InteractInfo/HBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="InteractName" type="Label" parent="Control/InteractInfo/HBox/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Item Name"
+vertical_alignment = 1
+
+[node name="InteractPrompt" type="Label" parent="Control/InteractInfo/HBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+text = "Press [E] to Interact"
+vertical_alignment = 1
+
+[node name="NearbyContainer" type="VBoxContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -220.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 400.0
+grow_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Control/NearbyContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0.8, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "NEARBY OBJECTS"
+horizontal_alignment = 2
+
+[node name="NearbyList" type="VBoxContainer" parent="Control/NearbyContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -240.0
+offset_right = 300.0
+grow_vertical = 0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_bottom = 30
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="EnergyBlock" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/EnergyBlock"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "ENERGY"
+
+[node name="EnergyBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer/EnergyBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_energy")
+value = 100.0
+show_percentage = false
+
+[node name="HealthBlock" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HealthBlock"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "HEALTH"
+
+[node name="HealthBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer/HealthBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_health")
+value = 85.0
+show_percentage = false
+
+[node name="HungerBlock" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/HungerBlock"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "HUNGER"
+
+[node name="HungerBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer/HungerBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hunger")
+value = 70.0
+show_percentage = false
+
+[node name="ThirstBlock" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/ThirstBlock"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "THIRST"
+
+[node name="ThirstBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer/ThirstBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_thirst")
+value = 60.0
+show_percentage = false
+
+[node name="SanityBlock" type="VBoxContainer" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Label" type="Label" parent="Control/MarginContainer/VBoxContainer/SanityBlock"]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 14
+text = "SANITY"
+
+[node name="SanityBar" type="ProgressBar" parent="Control/MarginContainer/VBoxContainer/SanityBlock"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sanity")
+value = 100.0
+show_percentage = false
+[node name="BuildHUD" type="Control" parent="Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TopRight" type="HBoxContainer" parent="Control/BuildHUD"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
+offset_top = 40.0
+offset_right = -40.0
+offset_bottom = 100.0
+grow_horizontal = 0
+theme_override_constants/separation = 30
+alignment = 2
+
+[node name="FlightMode" type="VBoxContainer" parent="Control/BuildHUD/TopRight"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Control/BuildHUD/TopRight/FlightMode"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Control/BuildHUD/TopRight/FlightMode"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Flight Mode"
+horizontal_alignment = 1
+
+[node name="Key" type="Label" parent="Control/BuildHUD/TopRight/FlightMode"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "~"
+horizontal_alignment = 1
+
+[node name="GridSnap" type="VBoxContainer" parent="Control/BuildHUD/TopRight"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Control/BuildHUD/TopRight/GridSnap"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Control/BuildHUD/TopRight/GridSnap"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Grid Snap"
+horizontal_alignment = 1
+
+[node name="Key" type="Label" parent="Control/BuildHUD/TopRight/GridSnap"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "Caps"
+horizontal_alignment = 1
+
+[node name="Relocation" type="VBoxContainer" parent="Control/BuildHUD/TopRight"]
+layout_mode = 2
+alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Control/BuildHUD/TopRight/Relocation"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_horizontal = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Control/BuildHUD/TopRight/Relocation"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Relocation"
+horizontal_alignment = 1
+
+[node name="Key" type="Label" parent="Control/BuildHUD/TopRight/Relocation"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "Z"
+horizontal_alignment = 1
+
+[node name="BottomLeft" type="VBoxContainer" parent="Control/BuildHUD"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -120.0
+offset_right = 240.0
+offset_bottom = -40.0
+grow_vertical = 0
+theme_override_constants/separation = 10
+alignment = 2
+
+[node name="BuildMenu" type="HBoxContainer" parent="Control/BuildHUD/BottomLeft"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Key" type="Label" parent="Control/BuildHUD/BottomLeft/BuildMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "Tab"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Control/BuildHUD/BottomLeft/BuildMenu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Open Build Menu"
+
+[node name="ExitBuild" type="HBoxContainer" parent="Control/BuildHUD/BottomLeft"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Key" type="Label" parent="Control/BuildHUD/BottomLeft/ExitBuild"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "Esc"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Control/BuildHUD/BottomLeft/ExitBuild"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Exit Build Mode"
+
+[node name="RightMenu" type="VBoxContainer" parent="Control/BuildHUD"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -150.0
+offset_right = -20.0
+offset_bottom = 250.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="Cat4" type="HBoxContainer" parent="Control/BuildHUD/RightMenu"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="Label" type="Label" parent="Control/BuildHUD/RightMenu/Cat4"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Structure Upgrade"
+horizontal_alignment = 2
+
+[node name="Key" type="Label" parent="Control/BuildHUD/RightMenu/Cat4"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "4"
+horizontal_alignment = 1
+
+[node name="Cat3" type="HBoxContainer" parent="Control/BuildHUD/RightMenu"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="Label" type="Label" parent="Control/BuildHUD/RightMenu/Cat3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Water and electricity\nmanagement"
+horizontal_alignment = 2
+
+[node name="Key" type="Label" parent="Control/BuildHUD/RightMenu/Cat3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "3"
+horizontal_alignment = 1
+
+[node name="Cat2" type="HBoxContainer" parent="Control/BuildHUD/RightMenu"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="Label" type="Label" parent="Control/BuildHUD/RightMenu/Cat2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 14
+text = "Appearance Editing"
+horizontal_alignment = 2
+
+[node name="Key" type="Label" parent="Control/BuildHUD/RightMenu/Cat2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_key")
+text = "2"
+horizontal_alignment = 1
+
+[node name="Cat1" type="HBoxContainer" parent="Control/BuildHUD/RightMenu"]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 2
+
+[node name="Label" type="Label" parent="Control/BuildHUD/RightMenu/Cat1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Common Construction"
+horizontal_alignment = 2
+
+[node name="Key" type="Label" parent="Control/BuildHUD/RightMenu/Cat1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_styles/normal = SubResource("StyleBoxFlat_build_cat_active")
+text = " 1  "
+horizontal_alignment = 1
+
+[node name="BuildMenuUI" parent="Control" instance=ExtResource("4_buildmenu")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuildBlueprint" load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://building/blueprints/roof_small_wood.tscn" id="1_scene"]
+[ext_resource type="Script" path="res://building/blueprint.gd" id="2_script"]
+
+[resource]
+script = ExtResource("2_script")
+name = "Small Wood Roof"
+category = "Structures"
+sub_category = "Floor/Roof"
+scene = ExtResource("1_scene")
+cost = {
+"Wood": 5
+}
+description = "A smaller 2x2 wooden roof/floor."
+snap_size = 2.0

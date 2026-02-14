@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://ktw40jm4frko"]
+
+[node name="FoundationWoodInwardCurve" type="StaticBody3D"]
+collision_layer = 3
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+
+[node name="CurveMesh" type="CSGCombiner3D" parent="MeshInstance3D"]
+use_collision = true
+
+[node name="Square" type="CSGBox3D" parent="MeshInstance3D/CurveMesh"]
+size = Vector3(4, 0.5, 4)
+
+[node name="Cylinder" type="CSGCylinder3D" parent="MeshInstance3D/CurveMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -2)
+operation = 2
+radius = 4.0
+height = 0.6
+sides = 32
+
+[node name="Sockets" type="Node3D" parent="."]
+
+[node name="Socket_East" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+metadata/type = "foundation"
+
+[node name="Socket_South" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+metadata/type = "foundation"
+
+[node name="WallSocket_East" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(0, 0, -1, 0, 1, 0, 1, 0, 0, 2, 0.5, 0)
+metadata/type = "wall"
+
+[node name="WallSocket_South" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0.5, 2)
+metadata/type = "wall"

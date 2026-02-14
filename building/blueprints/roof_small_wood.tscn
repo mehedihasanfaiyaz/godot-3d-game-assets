@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_small_roof"]
+size = Vector3(2, 0.2, 2)
+
+[sub_resource type="BoxMesh" id="BoxMesh_small_roof"]
+size = Vector3(2, 0.2, 2)
+
+[node name="RoofSmallWood" type="StaticBody3D"]
+collision_layer = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+shape = SubResource("BoxShape3D_small_roof")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+mesh = SubResource("BoxMesh_small_roof")
+
+[node name="Sockets" type="Node3D" parent="."]
+
+[node name="Socket_N" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+metadata/type = "roof"
+
+[node name="Socket_S" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+metadata/type = "roof"
+
+[node name="Socket_E" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+metadata/type = "roof"
+
+[node name="Socket_W" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+metadata/type = "roof"
+
+[node name="WallSocket_N" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, -1)
+metadata/type = "wall"
+
+[node name="WallSocket_S" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 1)
+metadata/type = "wall"
+
+[node name="WallSocket_E" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.2, 0)
+metadata/type = "wall"
+
+[node name="WallSocket_W" type="Marker3D" parent="Sockets" groups=["socket"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, 0)
+metadata/type = "wall"

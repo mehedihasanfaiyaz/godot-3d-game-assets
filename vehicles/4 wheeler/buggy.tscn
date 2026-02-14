@@ -1,9 +1,10 @@
-[gd_scene load_steps=32 format=3 uid="uid://d4h87i2neq0xd"]
+[gd_scene load_steps=45 format=3 uid="uid://d4h87i2neq0xd"]
 
 [ext_resource type="Script" uid="uid://dmmgtubok1jr0" path="res://raycast_car.gd" id="1_uig02"]
 [ext_resource type="PackedScene" uid="uid://bvq8x7y3m4n5p" path="res://vehicle_hud.tscn" id="2_exmno"]
 [ext_resource type="Texture2D" uid="uid://c3ufmkqbx4qg7" path="res://assets/texture/Red/texture_05.png" id="2_buggy_frame"]
 [ext_resource type="Texture2D" uid="uid://dcenr58nro4wa" path="res://assets/texture/Dark/texture_04.png" id="4_wgfa0"]
+[ext_resource type="Script" uid="uid://kr5k2w7uwuus" path="res://vehicles/4 wheeler/raycast_wheel.gd" id="4_rky6f"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_buggy_frame"]
 albedo_color = Color(0.9, 0.3, 0.1, 1)
@@ -138,15 +139,67 @@ albedo_color = Color(0.16924527, 0.1692453, 0.16924527, 1)
 material = SubResource("StandardMaterial3D_e118d")
 size = Vector3(0.3, 0.3, 0.3)
 
-[node name="buggy" type="RigidBody3D" node_paths=PackedStringArray("wheels", "damage_smoke_particles", "destruction_fire_particles", "destruction_smoke_particles", "vehicle_hud", "front_lights", "rear_lights", "left_indicators", "right_indicators", "cameras")]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_warp"]
+emission_shape = 3
+emission_box_extents = Vector3(4, 4, 10)
+direction = Vector3(0, 0, 1)
+spread = 0.0
+initial_velocity_min = 40.0
+initial_velocity_max = 60.0
+gravity = Vector3(0, 0, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_warp"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+albedo_color = Color(0, 0.8, 1, 0.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_warp"]
+material = SubResource("StandardMaterial3D_warp")
+size = Vector3(0.02, 0.02, 3)
+
+[sub_resource type="Curve" id="Curve_smoke_scale"]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_smoke_scale"]
+curve = SubResource("Curve_smoke_scale")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_smoke"]
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, 2, 0)
+scale_curve = SubResource("CurveTexture_smoke_scale")
+color = Color(1, 1, 1, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_smoke"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.8, 0.8, 0.8, 0.6)
+
+[sub_resource type="SphereMesh" id="SphereMesh_smoke"]
+material = SubResource("StandardMaterial3D_smoke")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_woecf"]
+height = 0.2
+radius = 0.35
+
+[node name="buggy" type="RigidBody3D" node_paths=PackedStringArray("wheels", "car_visual_node", "damage_smoke_particles", "destruction_fire_particles", "destruction_smoke_particles", "vehicle_hud", "front_lights", "rear_lights", "left_indicators", "right_indicators", "cameras", "speed_blur_rect", "warp_particles", "wheel_particles")]
 mass = 600.0
 gravity_scale = 2.0
 script = ExtResource("1_uig02")
 wheels = [NodePath("wheelFL"), NodePath("wheelRL"), NodePath("wheelFR"), NodePath("wheelRR")]
+car_visual_node = NodePath("chassis")
 jump_impulse = 12000.0
 max_boost_fuel = 12000.0
 boost_consumption = 800.0
 boost_recharge = 12000.0
+max_health = 10.0
 max_fuel = 800.0
 fuel_consumption_rate = 0.8
 fuel_boost_multiplier = 2.0
@@ -159,21 +212,26 @@ front_lights = [NodePath("Front Lights/MeshInstance3D"), NodePath("Front Lights/
 rear_lights = [NodePath("backLights/right"), NodePath("backLights/left")]
 left_indicators = [NodePath("backLights2/right")]
 right_indicators = [NodePath("backLights2/left")]
-cameras = [NodePath("top"), NodePath("FD"), NodePath("RL"), NodePath("RR"), NodePath("back")]
+cameras = [NodePath("cameras/top"), NodePath("cameras/FD"), NodePath("cameras/RL"), NodePath("cameras/RR"), NodePath("cameras/back")]
+speed_blur_rect = NodePath("VehicleHUD/Control/ColorRect")
+warp_particles = NodePath("WarpParticles")
+wheel_particles = [NodePath("wheelFL/Smoke"), NodePath("wheelRL/Smoke"), NodePath("wheelFR/Smoke"), NodePath("wheelRR/Smoke")]
 
-[node name="FD" type="Camera3D" parent="."]
+[node name="cameras" type="Node3D" parent="."]
+
+[node name="FD" type="Camera3D" parent="cameras"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, -0.5)
 
-[node name="RR" type="Camera3D" parent="."]
+[node name="RR" type="Camera3D" parent="cameras"]
 transform = Transform3D(0.58176625, -0.26361224, 0.7694522, -0.0669873, 0.9272782, 0.36833075, -0.81059283, -0.26582587, 0.5218006, 2.0, 2.0, 2.5)
 
-[node name="RL" type="Camera3D" parent="."]
+[node name="RL" type="Camera3D" parent="cameras"]
 transform = Transform3D(0.7197494, 0.2550093, -0.6457022, 0.0034725897, 0.92875874, 0.3706686, 0.69422543, -0.26903066, 0.6675879, -2.0, 2.0, 2.5)
 
-[node name="top" type="Camera3D" parent="."]
+[node name="top" type="Camera3D" parent="cameras"]
 transform = Transform3D(1, 0, 0, 0, 0.86123914, 0.50819993, 0, -0.50819993, 0.86123914, 0, 2.0, 2.8)
 
-[node name="back" type="Camera3D" parent="."]
+[node name="back" type="Camera3D" parent="cameras"]
 transform = Transform3D(-1, -4.4428248e-08, 7.5291915e-08, 0, 0.86123914, 0.50819993, -8.742278e-08, 0.50819993, -0.86123914, 0, 1.5, -2.8)
 
 [node name="chassis" type="MeshInstance3D" parent="."]
@@ -206,6 +264,10 @@ shape = SubResource("BoxShape3D_buggy")
 
 [node name="wheelFL" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0, -1.1)
+script = ExtResource("4_rky6f")
+is_motor = true
+is_steerable = true
+tire_grip = 5.0
 
 [node name="wheel" type="MeshInstance3D" parent="wheelFL"]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
@@ -215,8 +277,25 @@ mesh = SubResource("CylinderMesh_fj7yv")
 mesh = SubResource("TorusMesh_woecf")
 skeleton = NodePath("../..")
 
+[node name="ShapeCast3D" type="ShapeCast3D" parent="wheelFL"]
+process_physics_priority = -1
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("CylinderShape3D_woecf")
+target_position = Vector3(0, 0, 0)
+max_results = 3
+
+[node name="Smoke" type="GPUParticles3D" parent="wheelFL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+emitting = false
+amount = 30
+lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_smoke")
+draw_pass_1 = SubResource("SphereMesh_smoke")
+
 [node name="wheelRL" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0, 1.1)
+script = ExtResource("4_rky6f")
+tire_grip = 5.0
 
 [node name="wheel" type="MeshInstance3D" parent="wheelRL"]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
@@ -226,8 +305,27 @@ mesh = SubResource("CylinderMesh_fj7yv")
 mesh = SubResource("TorusMesh_woecf")
 skeleton = NodePath("../..")
 
+[node name="ShapeCast3D" type="ShapeCast3D" parent="wheelRL"]
+process_physics_priority = -1
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("CylinderShape3D_woecf")
+target_position = Vector3(0, 0, 0)
+max_results = 3
+
+[node name="Smoke" type="GPUParticles3D" parent="wheelRL"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+emitting = false
+amount = 30
+lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_smoke")
+draw_pass_1 = SubResource("SphereMesh_smoke")
+
 [node name="wheelFR" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, -1.1)
+script = ExtResource("4_rky6f")
+is_motor = true
+is_steerable = true
+tire_grip = 5.0
 
 [node name="wheel" type="MeshInstance3D" parent="wheelFR"]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
@@ -237,8 +335,25 @@ mesh = SubResource("CylinderMesh_fj7yv")
 mesh = SubResource("TorusMesh_woecf")
 skeleton = NodePath("../..")
 
+[node name="ShapeCast3D" type="ShapeCast3D" parent="wheelFR"]
+process_physics_priority = -1
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("CylinderShape3D_woecf")
+target_position = Vector3(0, 0, 0)
+max_results = 3
+
+[node name="Smoke" type="GPUParticles3D" parent="wheelFR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+emitting = false
+amount = 30
+lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_smoke")
+draw_pass_1 = SubResource("SphereMesh_smoke")
+
 [node name="wheelRR" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 1.1)
+script = ExtResource("4_rky6f")
+tire_grip = 5.0
 
 [node name="wheel" type="MeshInstance3D" parent="wheelRR"]
 transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.65, 0)
@@ -247,6 +362,31 @@ mesh = SubResource("CylinderMesh_fj7yv")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="wheelRR/wheel"]
 mesh = SubResource("TorusMesh_woecf")
 skeleton = NodePath("../..")
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="wheelRR"]
+process_physics_priority = -1
+transform = Transform3D(-4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("CylinderShape3D_woecf")
+target_position = Vector3(0, 0, 0)
+max_results = 3
+
+[node name="Smoke" type="GPUParticles3D" parent="wheelRR"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+emitting = false
+amount = 30
+lifetime = 0.8
+process_material = SubResource("ParticleProcessMaterial_smoke")
+draw_pass_1 = SubResource("SphereMesh_smoke")
+
+[node name="WarpParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -8)
+emitting = false
+amount = 60
+lifetime = 0.25
+visibility_aabb = AABB(-10, -10, -20, 20, 20, 40)
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_warp")
+draw_pass_1 = SubResource("BoxMesh_warp")
 
 [node name="VehicleHUD" parent="." instance=ExtResource("2_exmno")]
 
